@@ -5,28 +5,28 @@
 
 // clang -Wall -Wextra -o llist llist.c
 
-// function declarations
-// void llist_insert_head(struct node **head, struct node *n);
-// struct node *llist_delete_head(struct node **head);
-// void llist_insert_tail(struct node **head, struct node *n);
-// void llist_print(struct node *head);
-// void llist_free(struct node **head);
-// struct node *node_alloc(int value);
-// void node_free(struct node *n);
-
 int main(int argc, char *argv[])
 {
+
+    struct node *n = node_alloc(13);
+    struct node *head = n;
+    llist_insert_head(&head, n);
+    printf("node 1: pointer=%p, value=%d, next=%p\n", n, n->value, n->next);
+    llist_print(head);
+
+    // printf("After adding node 2:\n");
+    // struct node *m = node_alloc(5);
+    // llist_insert_head(head, m);
+    // llist_print(*head);
+    
+
+
     for(int i = 1; i < argc; ) {
-        // look at argv[i] and see if it's one of the commands
-        // maybe we want to increment i differently depending on the if statement / kind of command
-        printf("argv[i] for i = %d is %s\n", i, argv[i]);
+      
+        // printf("argv[i] for i = %d is %s\n", i, argv[i]);
         if (strcmp(argv[i], "ih") == 0) {
-            printf("hey the number %d command was %s\n", i, argv[i]);
-            printf("and the argument passed was %s\n", argv[i+1]);
             i += 2;
-            printf("and now i is %d\n", i);
         }
-        printf("printing node address: %d\n", node_alloc(12));
         // else if ()
         // ih
         // it
@@ -36,17 +36,58 @@ int main(int argc, char *argv[])
     }
 }
 
-// function definitions
-void llist_insert_head(struct node **head, struct node *n);
+
+void llist_insert_head(struct node **head, struct node *n) {
+    struct node *old_head = *head;
+    *head = n;
+    n->next = old_head;
+}
+
 struct node *llist_delete_head(struct node **head);
+
 void llist_insert_tail(struct node **head, struct node *n);
-void llist_print(struct node *head);
+
+void llist_print(struct node *head) {
+    struct node *curr_add = head;
+    while (curr_add->next != NULL) {
+        printf("%d -> ", curr_add->value);
+        curr_add = curr_add->next;
+    }
+    printf("%d\n", curr_add->value);
+}
+
 void llist_free(struct node **head);
+
 struct node *node_alloc(int value) {
     struct node *n;
     n = malloc(sizeof(*n));
-    (*n).value = value;
+    n->value = value;
+    n->next = NULL;
     return n;
 }
-void node_free(struct node *n); 
 
+void node_free(struct node *n) {
+    free(n);
+}
+
+
+// TESTING CODE
+//
+//
+// --- example node creation ---
+//
+// struct node *n = node_alloc(13);
+// printf("node 1 before node 2: pointer=%p, value=%d, next=%p\n", n, n->value, n->next);
+//
+// struct node *m = node_alloc(5);
+// n->next = m;
+// printf("node 1 after node 2: pointer=%p, value=%d, next=%p\n", n, n->value, n->next);
+// printf("node 2: pointer=%p, value=%d, next=%p\n", m, m->value, m->next);
+//
+//
+// --- node_alloc and node_free ---
+//
+// struct node *p = node_alloc(12);
+// printf("printing node address: %p\n", p);
+// node_free(p);
+// printf("printing node address: %p\n", p);
