@@ -8,16 +8,18 @@
 int main(int argc, char *argv[])
 {
 
-    struct node *n = node_alloc(13);
-    struct node *head = n;
-    llist_insert_head(&head, n);
-    printf("node 1: pointer=%p, value=%d, next=%p\n", n, n->value, n->next);
-    llist_print(head);
-
-    // printf("After adding node 2:\n");
+    // struct node *n = node_alloc(13);
+    // struct node *head = NULL;
+    // llist_insert_head(&head, n);
+    // printf("After adding node 1:\n");
+    // llist_print(head);
     // struct node *m = node_alloc(5);
-    // llist_insert_head(head, m);
-    // llist_print(*head);
+    // llist_insert_head(&head, m);
+    // printf("After adding node 2:\n");
+    // llist_print(head);
+    // llist_delete_head(&head);
+    // printf("After deleting the head:\n");
+    // llist_print(head);
     
 
 
@@ -27,12 +29,22 @@ int main(int argc, char *argv[])
         if (strcmp(argv[i], "ih") == 0) {
             i += 2;
         }
-        // else if ()
-        // ih
-        // it
-        // dh
-        // p
-        // f
+        else if (strcmp(argv[i], "it") == 0) {
+            i += 2;
+        }
+        else if (strcmp(argv[i], "dh") == 0) {
+            i ++;
+        }
+        else if (strcmp(argv[i], "p") == 0) {
+            i ++;
+        }
+        else if (strcmp(argv[i], "f") == 0) {
+            i ++;
+        }
+        else {
+            printf("Error: command \"%s\" not recognized. \nPlease limit to the following options: ih, it, dh, p, or f.\n", argv[i]);
+            exit(0);
+        }
     }
 }
 
@@ -43,11 +55,21 @@ void llist_insert_head(struct node **head, struct node *n) {
     n->next = old_head;
 }
 
-struct node *llist_delete_head(struct node **head);
+struct node *llist_delete_head(struct node **head) {
+    if (!*head) {
+        return NULL;
+    }
+    else {
+        struct node *old_head = *head;
+        *head = (**head).next;
+        return old_head;
+    }
+}
 
 void llist_insert_tail(struct node **head, struct node *n);
 
 void llist_print(struct node *head) {
+    // if empty condition
     struct node *curr_add = head;
     while (curr_add->next != NULL) {
         printf("%d -> ", curr_add->value);
