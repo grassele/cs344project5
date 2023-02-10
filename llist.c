@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 {
 
     // struct node *n = node_alloc(13);
-    // struct node *head = NULL;
+    struct node *head = NULL;
     // llist_insert_head(&head, n);
     // printf("After adding node 1:\n");
     // llist_print(head);
@@ -19,8 +19,7 @@ int main(int argc, char *argv[])
     // llist_print(head);
     // llist_delete_head(&head);
     // printf("After deleting the head:\n");
-    // llist_print(head);
-    
+    llist_print(head);
 
 
     for(int i = 1; i < argc; ) {
@@ -69,13 +68,17 @@ struct node *llist_delete_head(struct node **head) {
 void llist_insert_tail(struct node **head, struct node *n);
 
 void llist_print(struct node *head) {
-    // if empty condition
-    struct node *curr_add = head;
-    while (curr_add->next != NULL) {
-        printf("%d -> ", curr_add->value);
-        curr_add = curr_add->next;
+    if (!head) {
+        printf("[EMPTY]\n");
     }
-    printf("%d\n", curr_add->value);
+    else {
+        struct node *curr_add = head;
+        while (curr_add->next != NULL) {
+            printf("%d -> ", curr_add->value);
+            curr_add = curr_add->next;
+        }
+        printf("%d\n", curr_add->value);
+    }
 }
 
 void llist_free(struct node **head);
