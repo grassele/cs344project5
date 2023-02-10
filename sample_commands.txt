@@ -1,0 +1,51 @@
+Calling functions directly from main:
+------------------------------------------------------
+    // struct node *n = node_alloc(1);
+    // struct node *head = NULL;
+    // llist_insert_head(&head, n);
+    // printf("After adding node 1:\n");
+    // llist_print(head);
+    // struct node *m = node_alloc(2);
+    // llist_insert_head(&head, m);
+    // printf("After adding node 2 as head:\n");
+    // llist_print(head);
+    // struct node *l = node_alloc(3);
+    // llist_insert_tail(&head, l);
+    // printf("After adding node 3 as tail:\n");
+    // llist_print(head);
+    // llist_delete_head(&head);
+    // printf("After deleting the head:\n");
+    // llist_print(head);
+    // llist_free(&head);
+    // printf("After freeing the list:\n");
+    // llist_print(head);
+
+
+Sample program runs
+------------------------------------------------------
+    // $ ./llist it 1 it 2 it 3 p
+    // 1 -> 2 -> 3
+
+    // $ ./llist ih 1 ih 2 ih 3 p
+    // 3 -> 2 -> 1
+
+    // $ ./llist ih 12 ih 13 it 14 p dh p
+    // 13 -> 12 -> 14
+    // 12 -> 14
+
+    // $ ./llist ih 20 ih 40 it 5 p dh p dh p dh p
+    // 40 -> 20 -> 5
+    // 20 -> 5
+    // 5
+    // [empty]
+
+    // $ ./llist ih 20 p dh dh dh dh dh dh dh p
+    // 20
+    // [empty]
+
+    // $ ./llist ih 1 ih 2 p f p ih 3 p
+    // 2 -> 1
+    // [empty]
+    // 3
+
+

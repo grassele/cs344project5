@@ -7,48 +7,40 @@
 
 int main(int argc, char *argv[])
 {
-
-    struct node *n = node_alloc(1);
     struct node *head = NULL;
-    llist_insert_head(&head, n);
-    printf("After adding node 1:\n");
-    llist_print(head);
-    struct node *m = node_alloc(2);
-    llist_insert_head(&head, m);
-    printf("After adding node 2 as head:\n");
-    llist_print(head);
-    struct node *l = node_alloc(3);
-    llist_insert_tail(&head, l);
-    printf("After adding node 3 as tail:\n");
-    llist_print(head);
-    llist_delete_head(&head);
-    printf("After deleting the head:\n");
-    llist_print(head);
-    llist_free(&head);
-    printf("After freeing the list:\n");
-    llist_print(head);
 
     for(int i = 1; i < argc; ) {
-      
-        // printf("argv[i] for i = %d is %s\n", i, argv[i]);
-        
-        // struct node *head = NULL;
-
+          
+        //  ih
         if (strcmp(argv[i], "ih") == 0) {
+            int val = atoi(argv[i+1]);
+            struct node *new_node = node_alloc(val);
+            llist_insert_head(&head, new_node);
             i += 2;
         }
+        //  it
         else if (strcmp(argv[i], "it") == 0) {
+            int val = atoi(argv[i+1]);
+            struct node *new_node = node_alloc(val);
+            llist_insert_tail(&head, new_node);
             i += 2;
         }
+        //  dh  
         else if (strcmp(argv[i], "dh") == 0) {
+            llist_delete_head(&head);
             i ++;
         }
+        //  p  
         else if (strcmp(argv[i], "p") == 0) {
+            llist_print(head);
             i ++;
         }
+        //  f  
         else if (strcmp(argv[i], "f") == 0) {
+            llist_free(&head);
             i ++;
         }
+        //  unrecognized command  
         else {
             printf("Error: command \"%s\" not recognized. \nPlease limit to the following options: ih, it, dh, p, or f.\n", argv[i]);
             exit(0);
@@ -89,7 +81,7 @@ void llist_insert_tail(struct node **head, struct node *n) {
 
 void llist_print(struct node *head) {
     if (!head) {
-        printf("[EMPTY]\n");
+        printf("[empty]\n");
     }
     else {
         struct node *curr_node = head;
@@ -103,13 +95,18 @@ void llist_print(struct node *head) {
 
 void llist_free(struct node **head) {
     struct node *curr_node = *head;
-    while (curr_node->next != NULL) {
-        struct node *temp = curr_node->next;
-        node_free(curr_node);
-        curr_node = temp;
+    if (*head == NULL) {
+        exit(0);
     }
-    node_free(curr_node);
-    *head = NULL;
+    else {
+        while (curr_node->next != NULL) {
+            struct node *temp = curr_node->next;
+            node_free(curr_node);
+            curr_node = temp;
+        }
+        node_free(curr_node);
+        *head = NULL;
+    }
 }
 
 struct node *node_alloc(int value) {
@@ -123,25 +120,3 @@ struct node *node_alloc(int value) {
 void node_free(struct node *n) {
     free(n);
 }
-
-
-// TESTING CODE
-//
-//
-// --- example node creation ---
-//
-// struct node *n = node_alloc(13);
-// printf("node 1 before node 2: pointer=%p, value=%d, next=%p\n", n, n->value, n->next);
-//
-// struct node *m = node_alloc(5);
-// n->next = m;
-// printf("node 1 after node 2: pointer=%p, value=%d, next=%p\n", n, n->value, n->next);
-// printf("node 2: pointer=%p, value=%d, next=%p\n", m, m->value, m->next);
-//
-//
-// --- node_alloc and node_free ---
-//
-// struct node *p = node_alloc(12);
-// printf("printing node address: %p\n", p);
-// node_free(p);
-// printf("printing node address: %p\n", p);
