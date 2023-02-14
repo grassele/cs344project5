@@ -96,7 +96,7 @@ void llist_print(struct node *head) {
 void llist_free(struct node **head) {
     struct node *curr_node = *head;
     if (*head == NULL) {
-        exit(0);
+        return;
     }
     else {
         while (curr_node->next != NULL) {
